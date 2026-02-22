@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Licznik i Księga Gości</title>
+</head>
+<body>
+
+<h2>Licznik odwiedzin</h2>
+<p>Odwiedziłeś tę stronę: <span id="licznik">0</span> razy.</p>
+
+<h2>Księga gości</h2>
+
+<form onsubmit="dodajWpis(); return false;">
+Imię:<br>
+<input type="text" id="imie"><br><br>
+
+Wiadomość:<br>
+<textarea id="wiadomosc"></textarea><br><br>
+
+<input type="submit" value="Dodaj wpis">
+</form>
+
+<h3>Wpisy:</h3>
+<div id="wpisy"></div>
+
+<script>
+// LICZNIK ODWIEDZIN
+if(localStorage.liczbaOdwiedzin){
+    localStorage.liczbaOdwiedzin = Number(localStorage.liczbaOdwiedzin) + 1;
+} else {
+    localStorage.liczbaOdwiedzin = 1;
+}
+document.getElementById("licznik").innerHTML = localStorage.liczbaOdwiedzin;
+
+
+// KSIĘGA GOŚCI
+function dodajWpis(){
+    var imie = document.getElementById("imie").value;
+    var wiadomosc = document.getElementById("wiadomosc").value;
+
+    if(imie == "" || wiadomosc == ""){
+        alert("Wpisz imię i wiadomość!");
+        return;
+    }
+
+    var wpis = "<p><b>" + imie + ":</b> " + wiadomosc + "</p>";
+
+    if(localStorage.wpisy){
+        localStorage.wpisy = wpis + localStorage.wpisy;
+    } else {
+        localStorage.wpisy = wpis;
+    }
+
+    wyswietlWpisy();
+    document.getElementById("imie").value="";
+    document.getElementById("wiadomosc").value="";
+}
+
+function wyswietlWpisy(){
+    if(localStorage.wpisy){
+        document.getElementById("wpisy").innerHTML = localStorage.wpisy;
+    }
+}
+
+wyswietlWpisy();
+</script>
+
+</body>
+</html>
